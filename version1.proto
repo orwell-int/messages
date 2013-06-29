@@ -7,7 +7,6 @@ package orwell.com;
 message base_message {
 	required string message_type = 1;
 	required bytes serialized_message = 2;
-	optional string recipient = 3;
 }
 
 // This message is used to handle a new client's login
