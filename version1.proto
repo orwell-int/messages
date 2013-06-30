@@ -19,8 +19,3 @@ message sample_message {
 	required string login = 1;
 }
 
-message move_tank_message {
-	required double left = 1;
-	required double right = 2;
-}
-
