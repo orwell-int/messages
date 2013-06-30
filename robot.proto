@@ -1,0 +1,12 @@
+option optimize_for = LITE_RUNTIME;
+
+package orwell.com;
+
+message Status {
+	required double life = 1;
+	optional group Move = 2 {
+		optional double left = 1;
+		optional double right = 2;
+	}
+}
+

@@ -1,3 +1,5 @@
+option optimize_for = LITE_RUNTIME;
+
 package orwell.com;
 
 // Base message used for communication, it contains an header defining the type of message
