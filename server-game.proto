@@ -2,3 +2,66 @@ option optimize_for = LITE_RUNTIME;
 
 package orwell.com;
 
+// supposing there are two teams
+enum EnumTeam {
+	RED = 0;
+	BLU = 1;
+}
+
+// Information about the team
+// not sent on its own
+message Team {
+	optional uint32 score = 1;
+	optional uint32 num_players = 2;
+	repeated string players = 3;
+}
+
+// Notify or give the current game state (started or not)
+// Can be embedded
+message GameState {
+	required bool playing = 1;
+	// number of seconds left before the game ends (useless if playing is false)
+	optional uint64 seconds = 2;
+	optional Team blu = 3;
+	optional Team red = 4;
+	// only set when playing is false and seconds is 0 (ie when the game is finished)
+	optional EnumTeam winner = 5;
+}
+
+// Tell a player how (s)he is and where (s)he plays
+// reply to: Hello
+message Welcome {
+	required string robot = 1;
+	required EnumTeam team = 2;
+	optional GameState game_state = 3;
+}
+
+// Tell a player that (s)he is not welcome
+// reply to: Hello
+message Goodbye {
+}
+
+// Tell a player how to connect to the game server
+// reply to: Register (through the web server)
+message Access {
+	required uint32 port = 1;
+	// default means same ip as the one used to send GetAccess
+	optional string ip = 2 [default = ""];
+}
+
+// Ask the robot to start sending the video
+// answered by: Video
+message GiveVideo {
+}
+
+// Notify the players or the robots that the game starts
+message Start {
+	optional GameState game_state = 1;
+}
+
+// Notify the players or the robots that the games stops
+message Stop {
+	optional bool shutdown = 1 [default = false];
+	optional bool video = 2 [default = true];
+}
+

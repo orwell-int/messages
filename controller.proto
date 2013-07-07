@@ -2,10 +2,14 @@ option optimize_for = LITE_RUNTIME;
 
 package orwell.messages;
 
+// Tell a player wants to join
+// answered by: Welcome, Goodbye
 message Hello {
 	required string name = 1;
+	optional bool ready = 2 [default = true];
 }
 
+// Notify the state of the inputs to control the robot
 message Input {
 	optional group Move = 1 {
 		optional double left = 1;
