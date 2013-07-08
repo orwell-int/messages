@@ -2,11 +2,23 @@ option optimize_for = LITE_RUNTIME;
 
 package orwell.com;
 
-message Status {
-	required double life = 1;
+// Notify the state the robot is in (sent while playing)
+message RobotState {
+	optional double life = 1;
 	optional group Move = 2 {
 		optional double left = 1;
 		optional double right = 2;
 	}
+	optional bool active = 3 [default = true];
+}
+
+// Tell where to find the video steamed by the camera of the robot
+// problem: if the video is sent from a device that is not controlled 
+// by the robot, it is not possible to add the information in the message
+// (but it might still be able to notify that the streaming has started)
+// reply to: GiveVideo
+message Video {
+	optional uint32 port = 1;
+	optional string ip = 2;
 }
 
