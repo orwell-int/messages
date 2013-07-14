@@ -1,7 +1,6 @@
 do_generate()
 {
-	dir="$(dirname "$(readlink -e "$0")")"
-	cd "$dir"
+	cd "$(dirname "$0")"
 	protoc -I=. --python_out=orwell/messages controller.proto robot.proto server-game.proto server-web.proto version1.proto
 }
 

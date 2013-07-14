@@ -7,6 +7,8 @@ package orwell.messages;
 message Hello {
 	required string name = 1;
 	optional bool ready = 2 [default = true];
+	required uint32 port = 3;
+	required string ip = 4;
 }
 
 // Notify the state of the inputs to control the robot

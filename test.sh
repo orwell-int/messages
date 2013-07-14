@@ -1,7 +1,6 @@
 do_test()
 {
-	dir="$(dirname "$(readlink -e "$0")")"
-	cd "$dir"
+	cd "$(dirname "$0")"
 	./generate.sh
 	PYTHONPATH=$PYTHONPATH:$(pwd) python orwell/messages/test/test_messages.py
 }
