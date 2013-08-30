@@ -1,6 +1,6 @@
 option optimize_for = LITE_RUNTIME;
 
-package orwell.com;
+package orwell.messages;
 
 // Ask how the player should connect to the game server
 // answered by: Access

@@ -1,6 +1,6 @@
 option optimize_for = LITE_RUNTIME;
 
-package orwell.com;
+package orwell.messages;
 
 // supposing there are two teams
 enum EnumTeam {

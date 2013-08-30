@@ -1,6 +1,6 @@
 option optimize_for = LITE_RUNTIME;
 
-package orwell.com;
+package orwell.messages;
 
 // Notify the state the robot is in (sent while playing)
 message RobotState {
