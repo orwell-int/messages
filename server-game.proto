@@ -42,7 +42,7 @@ message Goodbye {
 }
 
 // Tell a player how to connect to the game server
-// reply to: Register (through the web server)
+// reply to: GetAccess (through the web server)
 message Access {
 	required uint32 port = 1;
 	// default means same ip as the one used to send GetAccess
