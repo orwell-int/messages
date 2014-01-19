@@ -1,7 +1,6 @@
 clean_pb()
 {
-	dir="$(dirname "$(readlink -e "$0")")"
-	cd $dir
+	cd "$(dirname "$0")"
 	grep "_pb2\.py" .gitignore | xargs rm
 }
 
