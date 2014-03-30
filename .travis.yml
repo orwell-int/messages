@@ -1,5 +1,7 @@
 language: python
-install: pip install -r requirements.txt
+install:
+    - sudo apt-get install -qq libprotobuf-dev protobuf-compiler
+    - pip install -r requirements.txt
 script:
     - ./clean.sh
     - ./test.sh
