@@ -1,18 +1,8 @@
-import orwell.messages.version1_pb2 as protobuff
 import orwell.messages.controller_pb2 as pb_controller
 import orwell.messages.robot_pb2 as pb_robot
 import orwell.messages.server_game_pb2 as pb_server_game
 import orwell.messages.server_web_pb2 as pb_server_web
 
-
-def old_test():
-    login = protobuff.login_message()
-    login.client_id = 'toto'
-    login.wished_robot_type = 'TANK'
-    login_msg = login.SerializeToString()
-    login_2 = protobuff.login_message()
-    login_2.ParseFromString(login_msg)
-    assert(login == login_2)
 
 # server-game
 
@@ -29,9 +19,9 @@ def test_team():
     payload = message.SerializeToString()
     message2 = pb_server_game.Team()
     message2.ParseFromString(payload)
-    assert(message.score == score)
-    assert(message.num_players == num_players)
-    assert(message.players == players)
+    assert(message2.score == score)
+    assert(message2.num_players == num_players)
+    assert(message2.players == players)
 
 
 def test_game_state():
@@ -45,9 +35,9 @@ def test_game_state():
     payload = message.SerializeToString()
     message2 = pb_server_game.GameState()
     message2.ParseFromString(payload)
-    assert(message.playing == playing)
-    assert(message.seconds == seconds)
-    assert(message.winner == winner)
+    assert(message2.playing == playing)
+    assert(message2.seconds == seconds)
+    assert(message2.winner == winner)
 
 
 def test_welcome():
@@ -90,8 +80,8 @@ def test_access():
     payload = message.SerializeToString()
     message2 = pb_server_game.Access()
     message2.ParseFromString(payload)
-    assert(message.port == port)
-    assert(message.ip == ip)
+    assert(message2.port == port)
+    assert(message2.ip == ip)
 
 
 def test_start():
@@ -110,8 +100,22 @@ def test_stop():
     payload = message.SerializeToString()
     message2 = pb_server_game.Stop()
     message2.ParseFromString(payload)
-    assert(message.shutdown == shutdown)
-    assert(message.video == video)
+    assert(message2.shutdown == shutdown)
+    assert(message2.video == video)
+
+
+def test_registered():
+    message = pb_server_game.Registered()
+    name = 'Toto'
+    team = pb_server_game.RED
+    message.name = name
+    message.team = team
+    payload = message.SerializeToString()
+    message2 = pb_server_game.Registered()
+    message2.ParseFromString(payload)
+    assert(message2.name == name)
+    assert(message2.team == team)
+
 
 # server-web
 
@@ -123,7 +127,7 @@ def test_get_access():
     payload = message.SerializeToString()
     message2 = pb_server_web.GetAccess()
     message2.ParseFromString(payload)
-    assert(message.name == name)
+    assert(message2.name == name)
 
 
 def test_get_game_state():
@@ -146,9 +150,9 @@ def test_robot_state():
     payload = message.SerializeToString()
     message2 = pb_robot.RobotState()
     message2.ParseFromString(payload)
-    assert(message.life == life)
-    assert(message.move.right == right)
-    assert(message.active == active)
+    assert(message2.life == life)
+    assert(message2.move.right == right)
+    assert(message2.active == active)
 
 
 def test_video():
@@ -160,8 +164,18 @@ def test_video():
     payload = message.SerializeToString()
     message2 = pb_robot.Video()
     message2.ParseFromString(payload)
-    assert(message.port == port)
-    assert(message.ip == ip)
+    assert(message2.port == port)
+    assert(message2.ip == ip)
+
+
+def test_register():
+    message = pb_robot.Register()
+    robot_id = '192'
+    message.robot_id = robot_id
+    payload = message.SerializeToString()
+    message2 = pb_robot.Register()
+    message2.ParseFromString(payload)
+    assert(message2.robot_id == robot_id)
 
 
 # controller
@@ -200,7 +214,6 @@ def test_input():
 
 
 def main():
-    old_test()
     # server-game
     test_team()
     test_game_state()
@@ -208,12 +221,14 @@ def main():
     test_access()
     test_start()
     test_stop()
+    test_registered()
     # server-web
     test_get_access()
     test_get_game_state()
     # robot
     test_robot_state()
     test_video()
+    test_register()
     # controller
     test_hello()
     test_input()

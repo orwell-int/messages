@@ -65,3 +65,10 @@ message Stop {
 	optional bool video = 2 [default = true];
 }
 
+// Tell a robot what its name is (if the name is empty the registration failed).
+// reply to: Register
+message Registered {
+	required string name = 1;
+	optional EnumTeam team = 2;
+}
+
