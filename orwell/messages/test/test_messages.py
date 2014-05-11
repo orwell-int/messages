@@ -44,6 +44,7 @@ def test_welcome():
     message = pb_server_game.Welcome()
     robot = "TANK_1"
     team = pb_server_game.BLU
+    robot_id = "84"
     playing = True
     seconds = 123456
     blu_score = 987
@@ -52,6 +53,7 @@ def test_welcome():
     red_num = 2
     message.robot = robot
     message.team = team
+    message.id = robot_id
     message.game_state.playing = playing
     message.game_state.seconds = seconds
     message.game_state.blu.score = blu_score
@@ -63,6 +65,7 @@ def test_welcome():
     message2.ParseFromString(payload)
     assert(message2.robot == robot)
     assert(message2.team == team)
+    assert(message2.id == robot_id)
     assert(message2.game_state.playing == playing)
     assert(message2.game_state.seconds == seconds)
     assert(message2.game_state.blu.score == blu_score)
