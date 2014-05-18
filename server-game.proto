@@ -35,6 +35,8 @@ message Welcome {
 	required EnumTeam team = 2;
 	optional GameState game_state = 3;
 	required string id = 4;
+	required string video_address = 5;
+	required uint32 video_port = 6;
 }
 
 // Tell a player that (s)he is not welcome

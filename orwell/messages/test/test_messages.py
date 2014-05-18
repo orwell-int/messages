@@ -40,7 +40,7 @@ def test_game_state():
     assert(message2.winner == winner)
 
 
-def test_welcome():
+def test_welcome(use_optional):
     message = pb_server_game.Welcome()
     robot = "TANK_1"
     team = pb_server_game.BLU
@@ -51,27 +51,42 @@ def test_welcome():
     blu_num = 3
     red_score = 654
     red_num = 2
+    video_address = "127.0.0.2"
+    video_port = 9009
     message.robot = robot
     message.team = team
+    if (use_optional):
+        message.game_state.playing = playing
+        message.game_state.seconds = seconds
+        message.game_state.blu.score = blu_score
+        message.game_state.blu.num_players = blu_num
+        message.game_state.red.score = red_score
+        message.game_state.red.num_players = red_num
     message.id = robot_id
-    message.game_state.playing = playing
-    message.game_state.seconds = seconds
-    message.game_state.blu.score = blu_score
-    message.game_state.blu.num_players = blu_num
-    message.game_state.red.score = red_score
-    message.game_state.red.num_players = red_num
+    message.video_address = video_address
+    message.video_port = video_port
     payload = message.SerializeToString()
     message2 = pb_server_game.Welcome()
     message2.ParseFromString(payload)
     assert(message2.robot == robot)
     assert(message2.team == team)
+    if (use_optional):
+        assert(message2.game_state.playing == playing)
+        assert(message2.game_state.seconds == seconds)
+        assert(message2.game_state.blu.score == blu_score)
+        assert(message2.game_state.blu.num_players == blu_num)
+        assert(message2.game_state.red.score == red_score)
+        assert(message2.game_state.red.num_players == red_num)
+    else:
+        assert(not message2.game_state.playing)
+        assert(message2.game_state.seconds == 0)
+        assert(message2.game_state.blu.score == 0)
+        assert(message2.game_state.blu.num_players == 0)
+        assert(message2.game_state.red.score == 0)
+        assert(message2.game_state.red.num_players == 0)
     assert(message2.id == robot_id)
-    assert(message2.game_state.playing == playing)
-    assert(message2.game_state.seconds == seconds)
-    assert(message2.game_state.blu.score == blu_score)
-    assert(message2.game_state.blu.num_players == blu_num)
-    assert(message2.game_state.red.score == red_score)
-    assert(message2.game_state.red.num_players == red_num)
+    assert(message.video_address == video_address)
+    assert(message.video_port == video_port)
 
 
 def test_access():
@@ -220,7 +235,8 @@ def main():
     # server-game
     test_team()
     test_game_state()
-    test_welcome()
+    test_welcome(use_optional=True)
+    test_welcome(use_optional=False)
     test_access()
     test_start()
     test_stop()
