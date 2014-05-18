@@ -52,11 +52,6 @@ message Access {
 	optional string ip = 2 [default = ""];
 }
 
-// Ask the robot to start sending the video
-// answered by: Video
-message GiveVideo {
-}
-
 // Notify the players or the robots that the game starts
 message Start {
 	optional GameState game_state = 1;

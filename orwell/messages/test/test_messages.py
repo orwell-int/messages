@@ -173,27 +173,20 @@ def test_robot_state():
     assert(message2.active == active)
 
 
-def test_video():
-    message = pb_robot.Video()
-    port = 42
-    ip = "9.8.7.6"
-    message.port = port
-    message.ip = ip
-    payload = message.SerializeToString()
-    message2 = pb_robot.Video()
-    message2.ParseFromString(payload)
-    assert(message2.port == port)
-    assert(message2.ip == ip)
-
-
 def test_register():
     message = pb_robot.Register()
     robot_id = '192'
+    video_address = '9.8.7.6'
+    video_port = 42
     message.robot_id = robot_id
+    message.video_address = video_address
+    message.video_port = video_port
     payload = message.SerializeToString()
     message2 = pb_robot.Register()
     message2.ParseFromString(payload)
     assert(message2.robot_id == robot_id)
+    assert(message2.video_address == video_address)
+    assert(message2.video_port == video_port)
 
 
 # controller
@@ -246,7 +239,6 @@ def main():
     test_get_game_state()
     # robot
     test_robot_state()
-    test_video()
     test_register()
     # controller
     test_hello()
