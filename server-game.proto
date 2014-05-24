@@ -66,7 +66,8 @@ message Stop {
 // Tell a robot what its name is (if the name is empty the registration failed).
 // reply to: Register
 message Registered {
-	required string name = 1;
+	// this is the definitive robot ID to be used for communications
+	required string robot_id = 1;
 	optional EnumTeam team = 2;
 }
 

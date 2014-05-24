@@ -124,14 +124,14 @@ def test_stop():
 
 def test_registered():
     message = pb_server_game.Registered()
-    name = 'Toto'
+    robot_id = 'Toto'
     team = pb_server_game.RED
-    message.name = name
+    message.robot_id = robot_id
     message.team = team
     payload = message.SerializeToString()
     message2 = pb_server_game.Registered()
     message2.ParseFromString(payload)
-    assert(message2.name == name)
+    assert(message2.robot_id == robot_id)
     assert(message2.team == team)
 
 
@@ -175,16 +175,16 @@ def test_robot_state():
 
 def test_register():
     message = pb_robot.Register()
-    robot_id = '192'
+    temporary_robot_id = '192'
     video_address = '9.8.7.6'
     video_port = 42
-    message.robot_id = robot_id
+    message.temporary_robot_id = temporary_robot_id
     message.video_address = video_address
     message.video_port = video_port
     payload = message.SerializeToString()
     message2 = pb_robot.Register()
     message2.ParseFromString(payload)
-    assert(message2.robot_id == robot_id)
+    assert(message2.temporary_robot_id == temporary_robot_id)
     assert(message2.video_address == video_address)
     assert(message2.video_port == video_port)
 
