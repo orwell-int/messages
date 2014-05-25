@@ -12,19 +12,14 @@ message RobotState {
 	optional bool active = 3 [default = true];
 }
 
-// Tell where to find the video steamed by the camera of the robot
-// problem: if the video is sent from a device that is not controlled 
-// by the robot, it is not possible to add the information in the message
-// (but it might still be able to notify that the streaming has started)
-// reply to: GiveVideo
-message Video {
-	optional uint32 port = 1;
-	optional string ip = 2;
-}
-
-// Ask the server to register a new robot.
+// Ask the server to register a new robot. The video address and port
+// are provided.
 // Answered by: Registered
 message Register {
-	required string robot_id = 1;
+	// this temporary robot ID is only used when registering because
+	// we do not know yet what ID the server will assign to the robot
+	required string temporary_robot_id = 1;
+	required string video_address = 2;
+	required uint32 video_port = 3;
 }
 

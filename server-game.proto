@@ -34,6 +34,9 @@ message Welcome {
 	required string robot = 1;
 	required EnumTeam team = 2;
 	optional GameState game_state = 3;
+	required string id = 4;
+	required string video_address = 5;
+	required uint32 video_port = 6;
 }
 
 // Tell a player that (s)he is not welcome
@@ -47,11 +50,6 @@ message Access {
 	required uint32 port = 1;
 	// default means same ip as the one used to send GetAccess
 	optional string ip = 2 [default = ""];
-}
-
-// Ask the robot to start sending the video
-// answered by: Video
-message GiveVideo {
 }
 
 // Notify the players or the robots that the game starts
@@ -68,7 +66,8 @@ message Stop {
 // Tell a robot what its name is (if the name is empty the registration failed).
 // reply to: Register
 message Registered {
-	required string name = 1;
+	// this is the definitive robot ID to be used for communications
+	required string robot_id = 1;
 	optional EnumTeam team = 2;
 }
 
