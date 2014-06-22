@@ -176,17 +176,14 @@ def test_robot_state():
 def test_register():
     message = pb_robot.Register()
     temporary_robot_id = '192'
-    video_address = '9.8.7.6'
-    video_port = 42
+    video_url = "https://1.2.3.4:80/video"
     message.temporary_robot_id = temporary_robot_id
-    message.video_address = video_address
-    message.video_port = video_port
+    message.video_url = video_url
     payload = message.SerializeToString()
     message2 = pb_robot.Register()
     message2.ParseFromString(payload)
     assert(message2.temporary_robot_id == temporary_robot_id)
-    assert(message2.video_address == video_address)
-    assert(message2.video_port == video_port)
+    assert(message2.video_url == video_url)
 
 
 # controller
