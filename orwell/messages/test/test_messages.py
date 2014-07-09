@@ -192,17 +192,11 @@ def test_register():
 def test_hello():
     message = pb_controller.Hello()
     name = "JAMBON"
-    ip = "192.168.1.42"
-    port = 5555
     message.name = name
-    message.ip = ip
-    message.port = port
     payload = message.SerializeToString()
     message2 = pb_controller.Hello()
     message2.ParseFromString(payload)
     assert(message2.name == name)
-    assert(message2.ip == ip)
-    assert(message2.port == port)
     assert(message2.ready)
 
 
