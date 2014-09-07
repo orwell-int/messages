@@ -177,13 +177,16 @@ def test_register():
     message = pb_robot.Register()
     temporary_robot_id = '192'
     video_url = "https://1.2.3.4:80/video"
+    image = "image of my ball"
     message.temporary_robot_id = temporary_robot_id
     message.video_url = video_url
+    message.image = image
     payload = message.SerializeToString()
     message2 = pb_robot.Register()
     message2.ParseFromString(payload)
     assert(message2.temporary_robot_id == temporary_robot_id)
     assert(message2.video_url == video_url)
+    assert(message2.image == image)
 
 
 # controller

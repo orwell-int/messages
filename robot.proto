@@ -20,5 +20,6 @@ message Register {
 	// we do not know yet what ID the server will assign to the robot
 	required string temporary_robot_id = 1;
 	required string video_url = 2;
+	required string image = 3;
 }
 
