@@ -162,15 +162,21 @@ def test_robot_state():
     life = 120.42
     right = 2.25
     active = False
+    rfid = "myrfid"
+    color = 5
     message.life = life
     message.move.right = right
     message.active = active
+    message.rfid = rfid
+    message.color = color
     payload = message.SerializeToString()
     message2 = pb_robot.RobotState()
     message2.ParseFromString(payload)
     assert(message2.life == life)
     assert(message2.move.right == right)
     assert(message2.active == active)
+    assert(message2.rfid == rfid)
+    assert(message2.color == color)
 
 
 def test_register():

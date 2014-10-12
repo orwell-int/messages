@@ -10,6 +10,8 @@ message RobotState {
 		optional double right = 2;
 	}
 	optional bool active = 3 [default = true];
+	optional string rfid = 4 [default = ""];
+	optional int32 color = 5 [default = -1]; 
 }
 
 // Ask the server to register a new robot. The video address and port
