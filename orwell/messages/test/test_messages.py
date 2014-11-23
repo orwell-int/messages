@@ -157,26 +157,50 @@ def test_get_game_state():
 # robot
 
 
-def test_robot_state():
-    message = pb_robot.RobotState()
-    life = 120.42
-    right = 2.25
-    active = False
-    rfid = "myrfid"
-    color = 5
-    message.life = life
-    message.move.right = right
-    message.active = active
-    message.rfid = rfid
-    message.color = color
+def test_server_robot_state():
+    message = pb_robot.ServerRobotState()
+
+    rfid_event1 = message.rfid.add()
+    rfid_event2 = message.rfid.add()
+    colour_event = message.colour.add()
+    
+    rfid_event1_timestamp = 1416757954
+    rfid_event1_rfid = "myrfid"
+    rfid_event1_status = pb_robot.ON
+    rfid_event1.timestamp = rfid_event1_timestamp
+    rfid_event1.rfid = rfid_event1_rfid
+    rfid_event1.status = rfid_event1_status
+
+    rfid_event2_timestamp = 1416757999
+    rfid_event2_rfid = "myrfid"
+    rfid_event2_status = pb_robot.OFF
+    rfid_event2.timestamp = rfid_event2_timestamp
+    rfid_event2.rfid = rfid_event2_rfid
+    rfid_event2.status = rfid_event2_status
+
+    colour_event_timestamp = 1416757955
+    colour_event_colour = 5	
+    colour_event_status = pb_robot.ON
+    colour_event.timestamp = colour_event_timestamp
+    colour_event.colour = colour_event_colour
+    colour_event.status = colour_event_status
+
     payload = message.SerializeToString()
-    message2 = pb_robot.RobotState()
+    message2 = pb_robot.ServerRobotState()
     message2.ParseFromString(payload)
-    assert(message2.life == life)
-    assert(message2.move.right == right)
-    assert(message2.active == active)
-    assert(message2.rfid == rfid)
-    assert(message2.color == color)
+
+    assert(len(message2.rfid) == 2)
+    assert(message2.rfid[0].timestamp == rfid_event1_timestamp)
+    assert(message2.rfid[0].status == rfid_event1_status)
+    assert(message2.rfid[0].rfid == rfid_event1_rfid)
+    assert(message2.rfid[1].timestamp == rfid_event2_timestamp)
+    assert(message2.rfid[1].status == rfid_event2_status)
+    assert(message2.rfid[1].rfid == rfid_event2_rfid)
+    assert(len(message2.colour) == 1)
+    assert(message2.colour[0].timestamp == colour_event_timestamp)
+    assert(message2.colour[0].status == colour_event_status)
+    assert(message2.colour[0].colour == colour_event_colour)
+
 
 
 def test_register():
@@ -238,7 +262,7 @@ def main():
     test_get_access()
     test_get_game_state()
     # robot
-    test_robot_state()
+    test_server_robot_state()
     test_register()
     # controller
     test_hello()
