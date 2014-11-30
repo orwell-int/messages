@@ -163,7 +163,7 @@ def test_server_robot_state():
     rfid_event1 = message.rfid.add()
     rfid_event2 = message.rfid.add()
     colour_event = message.colour.add()
-    
+
     rfid_event1_timestamp = 1416757954
     rfid_event1_rfid = "myrfid"
     rfid_event1_status = pb_robot.ON
@@ -179,7 +179,7 @@ def test_server_robot_state():
     rfid_event2.status = rfid_event2_status
 
     colour_event_timestamp = 1416757955
-    colour_event_colour = 5	
+    colour_event_colour = 5
     colour_event_status = pb_robot.ON
     colour_event.timestamp = colour_event_timestamp
     colour_event.colour = colour_event_colour
