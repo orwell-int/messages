@@ -3,15 +3,28 @@ option optimize_for = LITE_RUNTIME;
 package orwell.messages;
 
 // Notify the state the robot is in (sent while playing)
-message RobotState {
-	optional double life = 1;
-	optional group Move = 2 {
-		optional double left = 1;
-		optional double right = 2;
-	}
-	optional bool active = 3 [default = true];
-	optional string rfid = 4 [default = ""];
-	optional int32 color = 5 [default = -1]; 
+message ServerRobotState {
+	repeated Colour colour = 1;
+	repeated Rfid rfid = 2;
+}
+
+enum Status {
+	ON = 1;
+	OFF = 2;
+}
+
+// Robot is detecting a Colour flag
+message Colour {
+	required int64 timestamp = 1;
+	required Status status = 2;
+	required int32 colour = 3;
+}
+
+// Robot is detecting a RFID flag
+message Rfid {
+	required int64 timestamp = 1;
+	required Status status = 2;
+	required string rfid = 3;
 }
 
 // Ask the server to register a new robot. The video address and port
