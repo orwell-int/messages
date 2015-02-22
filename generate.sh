@@ -1,3 +1,4 @@
+#!/bin/sh
 do_generate()
 {
 	cd "$(dirname "$0")"
