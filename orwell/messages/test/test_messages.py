@@ -11,9 +11,11 @@ def test_team():
     message = pb_server_game.Team()
     score = 3
     num_players = 2
+    name = "Nicolas"
     players = ["JAMBON", "RACLETTE"]
     message.score = score
     message.num_players = num_players
+    message.name = name
     for player in players:
         message.players.append(player)
     payload = message.SerializeToString()
@@ -22,6 +24,7 @@ def test_team():
     assert(message2.score == score)
     assert(message2.num_players == num_players)
     assert(message2.players == players)
+    assert(message2.name == name)
 
 
 def test_game_state():
@@ -47,8 +50,10 @@ def test_welcome(use_optional):
     robot_id = "84"
     playing = True
     seconds = 123456
+    blu_name = "Cage"
     blu_score = 987
     blu_num = 3
+    red_name = "Poule"
     red_score = 654
     red_num = 2
     video_address = "127.0.0.2"
@@ -60,8 +65,10 @@ def test_welcome(use_optional):
         message.game_state.seconds = seconds
         team_blu = message.game_state.teams.add()
         team_blu.score = blu_score
+        team_blu.name = blu_name 
         team_blu.num_players = blu_num
         team_red = message.game_state.teams.add()
+        team_red.name = red_name
         team_red.score = red_score
         team_red.num_players = red_num
     message.id = robot_id
@@ -77,8 +84,10 @@ def test_welcome(use_optional):
         assert(message2.game_state.seconds == seconds)
         assert(message2.game_state.teams[0].score == blu_score)
         assert(message2.game_state.teams[0].num_players == blu_num)
+        assert(message2.game_state.teams[0].name == blu_name)
         assert(message2.game_state.teams[1].score == red_score)
         assert(message2.game_state.teams[1].num_players == red_num)
+        assert(message2.game_state.teams[1].name == red_name)
     else:
         assert(not message2.game_state.playing)
         assert(message2.game_state.seconds == 0)
