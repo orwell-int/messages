@@ -5,9 +5,10 @@ package orwell.messages;
 // Information about the team
 // not sent on its own
 message Team {
-	optional uint32 score = 1;
-	optional uint32 num_players = 2;
-	repeated string players = 3;
+    required string name = 1;
+	optional uint32 score = 2;
+	optional uint32 num_players = 3;
+	repeated string players = 4;
 }
 
 // Notify or give the current game state (started or not)
