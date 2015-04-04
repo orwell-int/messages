@@ -28,7 +28,7 @@ def test_game_state():
     message = pb_server_game.GameState()
     playing = True
     seconds = 42
-    winner = pb_server_game.RED
+    winner = "team_banana"
     message.playing = playing
     message.seconds = seconds
     message.winner = winner
@@ -43,7 +43,7 @@ def test_game_state():
 def test_welcome(use_optional):
     message = pb_server_game.Welcome()
     robot = "TANK_1"
-    team = pb_server_game.BLU
+    team = "team_blue"
     robot_id = "84"
     playing = True
     seconds = 123456
@@ -58,10 +58,12 @@ def test_welcome(use_optional):
     if (use_optional):
         message.game_state.playing = playing
         message.game_state.seconds = seconds
-        message.game_state.blu.score = blu_score
-        message.game_state.blu.num_players = blu_num
-        message.game_state.red.score = red_score
-        message.game_state.red.num_players = red_num
+        team_blu = message.game_state.teams.add()
+        team_blu.score = blu_score
+        team_blu.num_players = blu_num
+        team_red = message.game_state.teams.add()
+        team_red.score = red_score
+        team_red.num_players = red_num
     message.id = robot_id
     message.video_address = video_address
     message.video_port = video_port
@@ -73,17 +75,14 @@ def test_welcome(use_optional):
     if (use_optional):
         assert(message2.game_state.playing == playing)
         assert(message2.game_state.seconds == seconds)
-        assert(message2.game_state.blu.score == blu_score)
-        assert(message2.game_state.blu.num_players == blu_num)
-        assert(message2.game_state.red.score == red_score)
-        assert(message2.game_state.red.num_players == red_num)
+        assert(message2.game_state.teams[0].score == blu_score)
+        assert(message2.game_state.teams[0].num_players == blu_num)
+        assert(message2.game_state.teams[1].score == red_score)
+        assert(message2.game_state.teams[1].num_players == red_num)
     else:
         assert(not message2.game_state.playing)
         assert(message2.game_state.seconds == 0)
-        assert(message2.game_state.blu.score == 0)
-        assert(message2.game_state.blu.num_players == 0)
-        assert(message2.game_state.red.score == 0)
-        assert(message2.game_state.red.num_players == 0)
+        assert(len(message2.game_state.teams) == 0)
     assert(message2.id == robot_id)
     assert(message.video_address == video_address)
     assert(message.video_port == video_port)
@@ -125,7 +124,7 @@ def test_stop():
 def test_registered():
     message = pb_server_game.Registered()
     robot_id = 'Toto'
-    team = pb_server_game.RED
+    team = "team_red"
     message.robot_id = robot_id
     message.team = team
     payload = message.SerializeToString()

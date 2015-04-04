@@ -2,12 +2,6 @@ option optimize_for = LITE_RUNTIME;
 
 package orwell.messages;
 
-// supposing there are two teams
-enum EnumTeam {
-	RED = 0;
-	BLU = 1;
-}
-
 // Information about the team
 // not sent on its own
 message Team {
@@ -22,17 +16,16 @@ message GameState {
 	required bool playing = 1;
 	// number of seconds left before the game ends (useless if playing is false)
 	optional uint64 seconds = 2;
-	optional Team blu = 3;
-	optional Team red = 4;
+	repeated Team teams = 3;
 	// only set when playing is false and seconds is 0 (ie when the game is finished)
-	optional EnumTeam winner = 5;
+	optional string winner = 4;
 }
 
 // Tell a player how (s)he is and where (s)he plays
 // reply to: Hello
 message Welcome {
 	required string robot = 1;
-	required EnumTeam team = 2;
+	required string team = 2;
 	optional GameState game_state = 3;
 	required string id = 4;
 	required string video_address = 5;
@@ -68,6 +61,6 @@ message Stop {
 message Registered {
 	// this is the definitive robot ID to be used for communications
 	required string robot_id = 1;
-	optional EnumTeam team = 2;
+	optional string team = 2;
 }
 
