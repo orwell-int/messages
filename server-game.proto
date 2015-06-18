@@ -2,6 +2,51 @@ option optimize_for = LITE_RUNTIME;
 
 package orwell.messages;
 
+enum ItemType {
+	FLAG = 1;
+}
+
+// Cartesian coordinates
+// not sent on its own
+message Coordinates {
+	required uint64 x = 1;
+	required uint64 y = 2;
+}
+
+// Colour with RGB values from 0 to 255
+// not sent on its own
+message RGBColour {
+	required uint32 r = 1;
+	required uint32 g = 2;
+	required uint32 b = 3;
+}
+
+message Landmark {
+	optional Coordinates position = 1;
+	optional RGBColour colour = 2;
+}
+
+enum CaptureStatus {
+	// the capture has just started
+	STARTED = 1;
+	// the capture failed (not enough time spent capturing)
+	FAILED = 2;
+	// the capture succeeded (team might score)
+	SUCCEEDED = 3;
+}
+
+// Information about an item regarding its state
+// not sent on its own
+message Item {
+	required ItemType type = 1;
+	required string name = 2;
+	optional CaptureStatus capture_status = 3;
+	// the name of the team owning the item (only valid for a flag ?)
+	optional string owner = 4;
+	optional Coordinates position = 5;
+	optional bool active = 6;
+}
+
 // Information about the team
 // not sent on its own
 message Team {
@@ -20,6 +65,10 @@ message GameState {
 	repeated Team teams = 3;
 	// only set when playing is false and seconds is 0 (ie when the game is finished)
 	optional string winner = 4;
+	// all items may not be repeated in every message sent ; only important information will be put
+	repeated Item items = 5;
+	// the points delimiting the map ; possibly only sent just once
+	repeated Landmark map_limits = 6;
 }
 
 // Tell a player how (s)he is and where (s)he plays
@@ -36,6 +85,12 @@ message Welcome {
 // Tell a player that (s)he is not welcome
 // reply to: Hello
 message Goodbye {
+}
+
+// Tell a player what is going on about their robot
+// sent when something noteworthy is happening
+message PlayerState {
+	optional Item item = 1;
 }
 
 // Tell a player how to connect to the game server
