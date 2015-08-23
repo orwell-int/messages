@@ -21,26 +21,30 @@ def test_team():
     payload = message.SerializeToString()
     message2 = pb_server_game.Team()
     message2.ParseFromString(payload)
-    assert(message2.score == score)
-    assert(message2.num_players == num_players)
-    assert(message2.players == players)
-    assert(message2.name == name)
+    assert(message2 == message)
 
 
 def test_game_state():
     message = pb_server_game.GameState()
-    playing = True
-    seconds = 42
-    winner = "team_banana"
-    message.playing = playing
-    message.seconds = seconds
-    message.winner = winner
+    message.playing = True
+    message.seconds = 42
+    message.winner = "team_banana"
+    landmark1 = message.map_limits.add()
+    landmark1.position.x = 1
+    landmark1.position.y = 6
+    landmark1.colour.r = 0
+    landmark1.colour.g = 255
+    landmark1.colour.b = 0
+    landmark2 = message.map_limits.add()
+    landmark2.position.x = 3
+    landmark2.position.y = 8
+    landmark2.colour.r = 0
+    landmark2.colour.g = 0
+    landmark2.colour.b = 255
     payload = message.SerializeToString()
     message2 = pb_server_game.GameState()
     message2.ParseFromString(payload)
-    assert(message2.playing == playing)
-    assert(message2.seconds == seconds)
-    assert(message2.winner == winner)
+    assert(message2 == message)
 
 
 def test_welcome(use_optional):
@@ -65,7 +69,7 @@ def test_welcome(use_optional):
         message.game_state.seconds = seconds
         team_blu = message.game_state.teams.add()
         team_blu.score = blu_score
-        team_blu.name = blu_name 
+        team_blu.name = blu_name
         team_blu.num_players = blu_num
         team_red = message.game_state.teams.add()
         team_red.name = red_name
@@ -141,6 +145,31 @@ def test_registered():
     message2.ParseFromString(payload)
     assert(message2.robot_id == robot_id)
     assert(message2.team == team)
+
+
+def test_player_state():
+    message = pb_server_game.PlaterState()
+    item = pb_server_game.Item()
+    item_type = pb_server_game.FLAG
+    item_name = "Flag"
+    item_caputre_status = pb_server_game.FAILED
+    item_owner = "team_red"
+    item.type = item_type
+    item.name = item_name
+    item.capture_status = item_caputre_status
+    item.owner = item_owner
+    item_position = pb_server_game.Coordinates()
+    item_position_x = 4
+    item_position_y = 2
+    item_position.x = item_position_x
+    item_position.y = item_position_y
+    item_active = False
+    item.active = item_active
+    message.item = item
+    payload = message.SerializeToString()
+    message2 = pb_server_game.Registered()
+    message2.ParseFromString(payload)
+    assert(message2 == message)
 
 
 # server-web
