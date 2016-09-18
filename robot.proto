@@ -6,6 +6,8 @@ package orwell.messages;
 message ServerRobotState {
 	repeated Colour colour = 1;
 	repeated Rfid rfid = 2;
+	optional Ultrasound ultrasound = 3;
+	optional Battery battery = 4;
 }
 
 enum Status {
@@ -25,6 +27,20 @@ message Rfid {
 	required int64 timestamp = 1;
 	required Status status = 2;
 	required string rfid = 3;
+}
+
+// Robot is updating its Ultrasound sensor value
+message Ultrasound {
+	required int64 timestamp = 1;
+	required float ultrasound = 2;
+}
+
+// Robot is updating its Battery level value
+message Battery {
+	required int64 timestamp = 1;
+	required int32 voltageMilliVolt = 2;
+	required float batteryCurrentAmps = 3;
+	required float motorCurrentAmps = 4;
 }
 
 // Ask the server to register a new robot. The video address and port
