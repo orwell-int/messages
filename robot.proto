@@ -39,8 +39,8 @@ message Ultrasound {
 message Battery {
 	required int64 timestamp = 1;
 	required int32 voltageMilliVolt = 2;
-	required float batteryCurrentAmps = 3;
-	required float motorCurrentAmps = 4;
+	optional float batteryCurrentAmps = 3;
+	optional float motorCurrentAmps = 4;
 }
 
 // Ask the server to register a new robot. The video address and port
