@@ -253,14 +253,12 @@ def test_server_robot_state():
     assert(message2.colour[0].status == colour_event_status)
     assert(message2.colour[0].colour == colour_event_colour)
     assert(message2.ultrasound.timestamp == us_event_timestamp)
-    assert(round(message2.ultrasound.ultrasound, 2) ==
-           round(us_event_ultrasound, 2))
+    assertAlmostEqual(message2.ultrasound.ultrasound, us_event_ultrasound)
     assert(message2.battery.timestamp == battery_event_timestamp)
     assert(message2.battery.voltageMilliVolt == battery_event_voltageMilliVolt)
-    assert(round(message2.battery.batteryCurrentAmps, 2) ==
-           round(battery_event_batteryCurrentAmps, 2))
-    assert(round(message2.battery.motorCurrentAmps, 2) ==
-           round(battery_event_motorCurrentAmps, 2))
+    assertAlmostEqual(message2.battery.batteryCurrentAmps,
+                      battery_event_batteryCurrentAmps)
+    assert(message2.battery.motorCurrentAmps, battery_event_motorCurrentAmps)
 
 
 def test_server_robot_state_2():
@@ -277,8 +275,11 @@ def test_server_robot_state_2():
     message2 = pb_robot.ServerRobotState()
     message2.ParseFromString(payload)
 
-    assert(round(message2.ultrasound.ultrasound, 2) ==
-           round(us_event_ultrasound, 2))
+    assert(message2.ultrasound.ultrasound, us_event_ultrasound)
+
+
+def assertAlmostEqual(float1, float2):
+    return abs(float1 - float2) < 1E-6
 
 
 def test_register():
