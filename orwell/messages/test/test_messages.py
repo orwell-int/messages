@@ -3,7 +3,6 @@ import orwell.messages.robot_pb2 as pb_robot
 import orwell.messages.server_game_pb2 as pb_server_game
 import orwell.messages.server_web_pb2 as pb_server_web
 
-
 # server-game
 
 
@@ -200,6 +199,8 @@ def test_server_robot_state():
     rfid_event1 = message.rfid.add()
     rfid_event2 = message.rfid.add()
     colour_event = message.colour.add()
+    us_event = message.ultrasound
+    battery_event = message.battery
 
     rfid_event1_timestamp = 1416757954
     rfid_event1_rfid = "myrfid"
@@ -222,6 +223,20 @@ def test_server_robot_state():
     colour_event.colour = colour_event_colour
     colour_event.status = colour_event_status
 
+    us_event_timestamp = 1416757956
+    us_event_ultrasound = 12.15
+    us_event.timestamp = us_event_timestamp
+    us_event.ultrasound = us_event_ultrasound
+
+    battery_event_timestamp = 1416787957
+    battery_event_voltageMilliVolt = 7854
+    battery_event_batteryCurrentAmps = 2.1
+    battery_event_motorCurrentAmps = 1.5
+    battery_event.timestamp = battery_event_timestamp
+    battery_event.voltageMilliVolt = battery_event_voltageMilliVolt
+    battery_event.batteryCurrentAmps = battery_event_batteryCurrentAmps
+    battery_event.motorCurrentAmps = battery_event_motorCurrentAmps
+
     payload = message.SerializeToString()
     message2 = pb_robot.ServerRobotState()
     message2.ParseFromString(payload)
@@ -237,7 +252,33 @@ def test_server_robot_state():
     assert(message2.colour[0].timestamp == colour_event_timestamp)
     assert(message2.colour[0].status == colour_event_status)
     assert(message2.colour[0].colour == colour_event_colour)
+    assert(message2.ultrasound.timestamp == us_event_timestamp)
+    assert(round(message2.ultrasound.ultrasound, 2) ==
+           round(us_event_ultrasound, 2))
+    assert(message2.battery.timestamp == battery_event_timestamp)
+    assert(message2.battery.voltageMilliVolt == battery_event_voltageMilliVolt)
+    assert(round(message2.battery.batteryCurrentAmps, 2) ==
+           round(battery_event_batteryCurrentAmps, 2))
+    assert(round(message2.battery.motorCurrentAmps, 2) ==
+           round(battery_event_motorCurrentAmps, 2))
 
+
+def test_server_robot_state_2():
+    message = pb_robot.ServerRobotState()
+
+    us_event = message.ultrasound
+
+    us_event_timestamp = 1416757956
+    us_event_ultrasound = float("Infinity")
+    us_event.timestamp = us_event_timestamp
+    us_event.ultrasound = us_event_ultrasound
+
+    payload = message.SerializeToString()
+    message2 = pb_robot.ServerRobotState()
+    message2.ParseFromString(payload)
+
+    assert(round(message2.ultrasound.ultrasound, 2) ==
+           round(us_event_ultrasound, 2))
 
 
 def test_register():
@@ -300,6 +341,7 @@ def main():
     test_get_game_state()
     # robot
     test_server_robot_state()
+    test_server_robot_state_2()
     test_register()
     # controller
     test_hello()
