@@ -45,6 +45,7 @@ message Item {
 	optional string owner = 4;
 	optional Coordinates position = 5;
 	optional bool active = 6;
+	optional string capturer = 7;
 }
 
 // Information about the team
