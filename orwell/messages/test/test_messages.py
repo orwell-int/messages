@@ -165,6 +165,7 @@ def test_player_state():
     item_position.y = item_position_y
     item_active = False
     item.active = item_active
+    item.capturer = 'Enemy'
     message.item = item
     payload = message.SerializeToString()
     message2 = pb_server_game.Registered()
