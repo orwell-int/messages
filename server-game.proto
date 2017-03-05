@@ -71,6 +71,8 @@ message GameState {
 	repeated Item items = 5;
 	// the points delimiting the map ; possibly only sent just once
 	repeated Landmark map_limits = 6;
+	// total game time
+	optional uint64 total_seconds = 7;
 }
 
 // Tell a player how (s)he is and where (s)he plays

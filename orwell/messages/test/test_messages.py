@@ -27,6 +27,7 @@ def test_game_state():
     message = pb_server_game.GameState()
     message.playing = True
     message.seconds = 42
+    message.total_seconds = 60
     message.winner = "team_banana"
     landmark1 = message.map_limits.add()
     landmark1.position.x = 1
@@ -53,6 +54,7 @@ def test_welcome(use_optional):
     robot_id = "84"
     playing = True
     seconds = 123456
+    total_seconds = 200000
     blu_name = "Cage"
     blu_score = 987
     blu_num = 3
@@ -66,6 +68,7 @@ def test_welcome(use_optional):
     if (use_optional):
         message.game_state.playing = playing
         message.game_state.seconds = seconds
+        message.game_state.total_seconds = total_seconds
         team_blu = message.game_state.teams.add()
         team_blu.score = blu_score
         team_blu.name = blu_name
@@ -85,6 +88,7 @@ def test_welcome(use_optional):
     if (use_optional):
         assert(message2.game_state.playing == playing)
         assert(message2.game_state.seconds == seconds)
+        assert(message2.game_state.total_seconds == total_seconds)
         assert(message2.game_state.teams[0].score == blu_score)
         assert(message2.game_state.teams[0].num_players == blu_num)
         assert(message2.game_state.teams[0].name == blu_name)
@@ -94,6 +98,7 @@ def test_welcome(use_optional):
     else:
         assert(not message2.game_state.playing)
         assert(message2.game_state.seconds == 0)
+        assert(message2.game_state.total_seconds == 0)
         assert(len(message2.game_state.teams) == 0)
     assert(message2.id == robot_id)
     assert(message.video_address == video_address)
