@@ -152,8 +152,9 @@ def test_registered():
 
 
 def test_player_state():
-    message = pb_server_game.PlaterState()
-    item = pb_server_game.Item()
+    message = pb_server_game.PlayerState()
+    # item = pb_server_game.Item()
+    item = message.item
     item_type = pb_server_game.FLAG
     item_name = "Flag"
     item_capture_status = pb_server_game.FAILED
@@ -162,7 +163,7 @@ def test_player_state():
     item.name = item_name
     item.capture_status = item_capture_status
     item.owner = item_owner
-    item_position = pb_server_game.Coordinates()
+    item_position = item.position
     item_position_x = 4
     item_position_y = 2
     item_position.x = item_position_x
@@ -170,11 +171,16 @@ def test_player_state():
     item_active = False
     item.active = item_active
     item.capturer = 'Enemy'
-    message.item = item
     payload = message.SerializeToString()
-    message2 = pb_server_game.Registered()
+    message2 = pb_server_game.PlayerState()
     message2.ParseFromString(payload)
-    assert(message2 == message)
+    assert(message2.item.type == message.item.type)
+    assert(message2.item.name == message.item.name)
+    assert(message2.item.owner == message.item.owner)
+    assert(message2.item.capture_status == message.item.capture_status)
+    assert(message2.item.active == message.item.active)
+    assert(message2.item.position.x == message.item.position.x)
+    assert(message2.item.position.y == message.item.position.y)
 
 
 # server-web
@@ -343,6 +349,7 @@ def main():
     test_start()
     test_stop()
     test_registered()
+    test_player_state()
     # server-web
     test_get_access()
     test_get_game_state()
