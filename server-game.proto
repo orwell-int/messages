@@ -45,13 +45,14 @@ message Item {
 	optional string owner = 4;
 	optional Coordinates position = 5;
 	optional bool active = 6;
+	// team that is or was capturing
 	optional string capturer = 7;
 }
 
 // Information about the team
 // not sent on its own
 message Team {
-    required string name = 1;
+	required string name = 1;
 	optional uint32 score = 2;
 	optional uint32 num_players = 3;
 	repeated string players = 4;
