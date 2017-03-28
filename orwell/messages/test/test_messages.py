@@ -27,6 +27,7 @@ def test_game_state():
     message = pb_server_game.GameState()
     message.playing = True
     message.seconds = 42
+    message.total_seconds = 60
     message.winner = "team_banana"
     landmark1 = message.map_limits.add()
     landmark1.position.x = 1
@@ -53,6 +54,7 @@ def test_welcome(use_optional):
     robot_id = "84"
     playing = True
     seconds = 123456
+    total_seconds = 200000
     blu_name = "Cage"
     blu_score = 987
     blu_num = 3
@@ -66,6 +68,7 @@ def test_welcome(use_optional):
     if (use_optional):
         message.game_state.playing = playing
         message.game_state.seconds = seconds
+        message.game_state.total_seconds = total_seconds
         team_blu = message.game_state.teams.add()
         team_blu.score = blu_score
         team_blu.name = blu_name
@@ -85,6 +88,7 @@ def test_welcome(use_optional):
     if (use_optional):
         assert(message2.game_state.playing == playing)
         assert(message2.game_state.seconds == seconds)
+        assert(message2.game_state.total_seconds == total_seconds)
         assert(message2.game_state.teams[0].score == blu_score)
         assert(message2.game_state.teams[0].num_players == blu_num)
         assert(message2.game_state.teams[0].name == blu_name)
@@ -94,6 +98,7 @@ def test_welcome(use_optional):
     else:
         assert(not message2.game_state.playing)
         assert(message2.game_state.seconds == 0)
+        assert(message2.game_state.total_seconds == 0)
         assert(len(message2.game_state.teams) == 0)
     assert(message2.id == robot_id)
     assert(message.video_address == video_address)
@@ -147,8 +152,9 @@ def test_registered():
 
 
 def test_player_state():
-    message = pb_server_game.PlaterState()
-    item = pb_server_game.Item()
+    message = pb_server_game.PlayerState()
+    # item = pb_server_game.Item()
+    item = message.item
     item_type = pb_server_game.FLAG
     item_name = "Flag"
     item_capture_status = pb_server_game.FAILED
@@ -157,7 +163,7 @@ def test_player_state():
     item.name = item_name
     item.capture_status = item_capture_status
     item.owner = item_owner
-    item_position = pb_server_game.Coordinates()
+    item_position = item.position
     item_position_x = 4
     item_position_y = 2
     item_position.x = item_position_x
@@ -165,11 +171,16 @@ def test_player_state():
     item_active = False
     item.active = item_active
     item.capturer = 'Enemy'
-    message.item = item
     payload = message.SerializeToString()
-    message2 = pb_server_game.Registered()
+    message2 = pb_server_game.PlayerState()
     message2.ParseFromString(payload)
-    assert(message2 == message)
+    assert(message2.item.type == message.item.type)
+    assert(message2.item.name == message.item.name)
+    assert(message2.item.owner == message.item.owner)
+    assert(message2.item.capture_status == message.item.capture_status)
+    assert(message2.item.active == message.item.active)
+    assert(message2.item.position.x == message.item.position.x)
+    assert(message2.item.position.y == message.item.position.y)
 
 
 # server-web
@@ -338,6 +349,7 @@ def main():
     test_start()
     test_stop()
     test_registered()
+    test_player_state()
     # server-web
     test_get_access()
     test_get_game_state()
