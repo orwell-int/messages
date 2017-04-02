@@ -241,14 +241,14 @@ def test_server_robot_state():
     us_event_timestamp = 1416757956
     us_event_ultrasound = 125
     us_event.timestamp = us_event_timestamp
-    us_event.ultrasound = us_event_ultrasound
+    us_event.distance = us_event_ultrasound
 
     battery_event_timestamp = 1416787957
-    battery_event_voltageMilliVolt = 7854
-    battery_event_currentAmp = 2.1
+    battery_event_voltage_millivolt = 7854
+    battery_event_current_amp = 2.1
     battery_event.timestamp = battery_event_timestamp
-    battery_event.voltageMilliVolt = battery_event_voltageMilliVolt
-    battery_event.currentAmp = battery_event_currentAmp
+    battery_event.voltage_millivolt = battery_event_voltage_millivolt
+    battery_event.current_amp = battery_event_current_amp
 
     payload = message.SerializeToString()
     message2 = pb_robot.ServerRobotState()
@@ -266,11 +266,12 @@ def test_server_robot_state():
     assert(message2.colour[0].status == colour_event_status)
     assert(message2.colour[0].colour == colour_event_colour)
     assert(message2.ultrasound.timestamp == us_event_timestamp)
-    assert(message2.ultrasound.ultrasound == us_event_ultrasound)
+    assert(message2.ultrasound.distance == us_event_ultrasound)
     assert(message2.battery.timestamp == battery_event_timestamp)
-    assert(message2.battery.voltageMilliVolt == battery_event_voltageMilliVolt)
-    assertAlmostEqual(message2.battery.currentAmp,
-                      battery_event_currentAmp)
+    assert(message2.battery.voltage_millivolt == 
+           battery_event_voltage_millivolt)
+    assertAlmostEqual(message2.battery.current_amp,
+                      battery_event_current_amp)
 
 
 def test_server_robot_state_2():
@@ -281,13 +282,13 @@ def test_server_robot_state_2():
     us_event_timestamp = 1416757956
     us_event_ultrasound = 123456
     us_event.timestamp = us_event_timestamp
-    us_event.ultrasound = us_event_ultrasound
+    us_event.distance = us_event_ultrasound
 
     payload = message.SerializeToString()
     message2 = pb_robot.ServerRobotState()
     message2.ParseFromString(payload)
 
-    assert(message2.ultrasound.ultrasound == us_event_ultrasound)
+    assert(message2.ultrasound.distance == us_event_ultrasound)
 
 
 def assertAlmostEqual(float1, float2):

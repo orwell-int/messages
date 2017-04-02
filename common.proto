@@ -6,12 +6,12 @@ package orwell.messages;
 // Robot is updating its Ultrasound sensor value
 message Ultrasound {
 	required int64 timestamp = 1;
-	required int32 ultrasound = 2;
+	required int32 distance = 2;
 }
 
 // Robot is updating its Battery level value
 message Battery {
 	required int64 timestamp = 1;
-	required int32 voltageMilliVolt = 2;
-	optional float currentAmp = 3;
+	required int32 voltage_millivolt = 2;
+	optional float current_amp = 3;
 }
