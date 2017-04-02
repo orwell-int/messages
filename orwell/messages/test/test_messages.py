@@ -239,18 +239,16 @@ def test_server_robot_state():
     colour_event.status = colour_event_status
 
     us_event_timestamp = 1416757956
-    us_event_ultrasound = 12.15
+    us_event_ultrasound = 125
     us_event.timestamp = us_event_timestamp
     us_event.ultrasound = us_event_ultrasound
 
     battery_event_timestamp = 1416787957
     battery_event_voltageMilliVolt = 7854
-    battery_event_batteryCurrentAmps = 2.1
-    battery_event_motorCurrentAmps = 1.5
+    battery_event_currentAmp = 2.1
     battery_event.timestamp = battery_event_timestamp
     battery_event.voltageMilliVolt = battery_event_voltageMilliVolt
-    battery_event.batteryCurrentAmps = battery_event_batteryCurrentAmps
-    battery_event.motorCurrentAmps = battery_event_motorCurrentAmps
+    battery_event.currentAmp = battery_event_currentAmp
 
     payload = message.SerializeToString()
     message2 = pb_robot.ServerRobotState()
@@ -268,12 +266,11 @@ def test_server_robot_state():
     assert(message2.colour[0].status == colour_event_status)
     assert(message2.colour[0].colour == colour_event_colour)
     assert(message2.ultrasound.timestamp == us_event_timestamp)
-    assertAlmostEqual(message2.ultrasound.ultrasound, us_event_ultrasound)
+    assert(message2.ultrasound.ultrasound == us_event_ultrasound)
     assert(message2.battery.timestamp == battery_event_timestamp)
     assert(message2.battery.voltageMilliVolt == battery_event_voltageMilliVolt)
-    assertAlmostEqual(message2.battery.batteryCurrentAmps,
-                      battery_event_batteryCurrentAmps)
-    assert(message2.battery.motorCurrentAmps == battery_event_motorCurrentAmps)
+    assertAlmostEqual(message2.battery.currentAmp,
+                      battery_event_currentAmp)
 
 
 def test_server_robot_state_2():
@@ -282,7 +279,7 @@ def test_server_robot_state_2():
     us_event = message.ultrasound
 
     us_event_timestamp = 1416757956
-    us_event_ultrasound = float("Infinity")
+    us_event_ultrasound = 123456
     us_event.timestamp = us_event_timestamp
     us_event.ultrasound = us_event_ultrasound
 
