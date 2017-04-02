@@ -2,6 +2,7 @@ import orwell.messages.controller_pb2 as pb_controller
 import orwell.messages.robot_pb2 as pb_robot
 import orwell.messages.server_game_pb2 as pb_server_game
 import orwell.messages.server_web_pb2 as pb_server_web
+import orwell.messages.common_pb2 as pb_common
 
 # server-game
 
@@ -153,7 +154,6 @@ def test_registered():
 
 def test_player_state():
     message = pb_server_game.PlayerState()
-    # item = pb_server_game.Item()
     item = message.item
     item_type = pb_server_game.FLAG
     item_name = "Flag"
@@ -171,6 +171,9 @@ def test_player_state():
     item_active = False
     item.active = item_active
     item.capturer = 'Enemy'
+    # not testing again those (tested in ServerRobotState
+    assert(isinstance(message.ultrasound, pb_common.Ultrasound))
+    assert(isinstance(message.battery, pb_common.Battery))
     payload = message.SerializeToString()
     message2 = pb_server_game.PlayerState()
     message2.ParseFromString(payload)
