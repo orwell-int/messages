@@ -1,6 +1,6 @@
 option optimize_for = LITE_RUNTIME;
 
-import public "common.proto";
+import "common.proto";
 package orwell.messages;
 
 // Notify the state the robot is in (sent while playing)
