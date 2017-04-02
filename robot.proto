@@ -32,15 +32,14 @@ message Rfid {
 // Robot is updating its Ultrasound sensor value
 message Ultrasound {
 	required int64 timestamp = 1;
-	required float ultrasound = 2;
+	required int32 ultrasound = 2;
 }
 
 // Robot is updating its Battery level value
 message Battery {
 	required int64 timestamp = 1;
 	required int32 voltageMilliVolt = 2;
-	optional float batteryCurrentAmps = 3;
-	optional float motorCurrentAmps = 4;
+	optional float currentAmp = 3;
 }
 
 // Ask the server to register a new robot. The video address and port
