@@ -1,5 +1,6 @@
 option optimize_for = LITE_RUNTIME;
 
+import public "common.proto";
 package orwell.messages;
 
 // Notify the state the robot is in (sent while playing)
@@ -27,20 +28,6 @@ message Rfid {
 	required int64 timestamp = 1;
 	required Status status = 2;
 	required string rfid = 3;
-}
-
-// Robot is updating its Ultrasound sensor value
-message Ultrasound {
-	required int64 timestamp = 1;
-	required float ultrasound = 2;
-}
-
-// Robot is updating its Battery level value
-message Battery {
-	required int64 timestamp = 1;
-	required int32 voltageMilliVolt = 2;
-	optional float batteryCurrentAmps = 3;
-	optional float motorCurrentAmps = 4;
 }
 
 // Ask the server to register a new robot. The video address and port

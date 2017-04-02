@@ -1,5 +1,6 @@
 option optimize_for = LITE_RUNTIME;
 
+import public "common.proto";
 package orwell.messages;
 
 enum ItemType {
@@ -95,6 +96,8 @@ message Goodbye {
 // sent when something noteworthy is happening
 message PlayerState {
 	optional Item item = 1;
+	optional Ultrasound ultrasound = 2;
+	optional Battery battery = 3;
 }
 
 // Tell a player how to connect to the game server

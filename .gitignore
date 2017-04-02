@@ -3,5 +3,6 @@ orwell/messages/controller_pb2.py
 orwell/messages/robot_pb2.py
 orwell/messages/server_game_pb2.py
 orwell/messages/server_web_pb2.py
+orwell/messages/common_pb2.py
 CMakeLists.txt
 venv/
