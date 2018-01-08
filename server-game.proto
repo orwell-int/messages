@@ -76,15 +76,15 @@ message GameState {
 	optional uint64 total_seconds = 7;
 }
 
-// Tell a player how (s)he is and where (s)he plays
+// Tell a player who (s)he is and where (s)he plays
 // reply to: Hello
 message Welcome {
 	required string robot = 1;
 	required string team = 2;
 	optional GameState game_state = 3;
 	required string id = 4;
-	required string video_address = 5;
-	required uint32 video_port = 6;
+	optional string video_address = 5;
+	optional uint32 video_port = 6;
 }
 
 // Tell a player that (s)he is not welcome
