@@ -78,9 +78,9 @@ def test_welcome(use_optional):
         team_red.name = red_name
         team_red.score = red_score
         team_red.num_players = red_num
+        message.video_address = video_address
+        message.video_port = video_port
     message.id = robot_id
-    message.video_address = video_address
-    message.video_port = video_port
     payload = message.SerializeToString()
     message2 = pb_server_game.Welcome()
     message2.ParseFromString(payload)
@@ -96,14 +96,16 @@ def test_welcome(use_optional):
         assert(message2.game_state.teams[1].score == red_score)
         assert(message2.game_state.teams[1].num_players == red_num)
         assert(message2.game_state.teams[1].name == red_name)
+        assert(message.video_address == video_address)
+        assert(message.video_port == video_port)
     else:
         assert(not message2.game_state.playing)
         assert(message2.game_state.seconds == 0)
         assert(message2.game_state.total_seconds == 0)
         assert(len(message2.game_state.teams) == 0)
+        assert(len(message.video_address) == 0)
+        assert(message.video_port == 0)
     assert(message2.id == robot_id)
-    assert(message.video_address == video_address)
-    assert(message.video_port == video_port)
 
 
 def test_access():
@@ -268,7 +270,7 @@ def test_server_robot_state():
     assert(message2.ultrasound.timestamp == us_event_timestamp)
     assert(message2.ultrasound.distance == us_event_ultrasound)
     assert(message2.battery.timestamp == battery_event_timestamp)
-    assert(message2.battery.voltage_millivolt == 
+    assert(message2.battery.voltage_millivolt ==
            battery_event_voltage_millivolt)
     assertAlmostEqual(message2.battery.current_amp,
                       battery_event_current_amp)
@@ -295,20 +297,24 @@ def assertAlmostEqual(float1, float2):
     return abs(float1 - float2) < 1E-6
 
 
-def test_register():
+def test_register(use_optional):
     message = pb_robot.Register()
     temporary_robot_id = '192'
     video_url = "https://1.2.3.4:80/video"
     image = "image of my ball"
     message.temporary_robot_id = temporary_robot_id
-    message.video_url = video_url
+    if (use_optional):
+        message.video_url = video_url
     message.image = image
     payload = message.SerializeToString()
     message2 = pb_robot.Register()
     message2.ParseFromString(payload)
     assert(message2.temporary_robot_id == temporary_robot_id)
-    assert(message2.video_url == video_url)
     assert(message2.image == image)
+    if (use_optional):
+        assert(message2.video_url == video_url)
+    else:
+        assert(not message2.video_url)
 
 
 # controller
@@ -357,7 +363,8 @@ def main():
     # robot
     test_server_robot_state()
     test_server_robot_state_2()
-    test_register()
+    test_register(use_optional=True)
+    test_register(use_optional=False)
     # controller
     test_hello()
     test_input()
