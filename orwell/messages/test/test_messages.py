@@ -317,6 +317,28 @@ def test_register(use_optional):
         assert(not message2.video_url)
 
 
+def test_pong(use_optional):
+    logger = "logger"
+    timestamp = 1234
+    elapsed = 36
+    message = pb_robot.Pong()
+    timing_event = message.timing.add()
+    timing_event.logger = logger
+    if (use_optional):
+        timing_event.timestamp = timestamp
+        timing_event.elapsed = elapsed
+    payload = message.SerializeToString()
+    message2 = pb_robot.Pong()
+    message2.ParseFromString(payload)
+    assert(message2.timing[0].logger == logger)
+    if (use_optional):
+        assert(message2.timing[0].timestamp == timestamp)
+        assert(message2.timing[0].elapsed == elapsed)
+    else:
+        assert(not message2.timing[0].timestamp)
+        assert(not message2.timing[0].elapsed)
+
+
 # controller
 
 
@@ -346,6 +368,28 @@ def test_input():
     assert(message2.fire.weapon2)
 
 
+def test_ping(use_optional):
+    logger = "logger"
+    timestamp = 1234
+    elapsed = 36
+    message = pb_controller.Ping()
+    timing_event = message.timing.add()
+    timing_event.logger = logger
+    if (use_optional):
+        timing_event.timestamp = timestamp
+        timing_event.elapsed = elapsed
+    payload = message.SerializeToString()
+    message2 = pb_controller.Ping()
+    message2.ParseFromString(payload)
+    assert(message2.timing[0].logger == logger)
+    if (use_optional):
+        assert(message2.timing[0].timestamp == timestamp)
+        assert(message2.timing[0].elapsed == elapsed)
+    else:
+        assert(not message2.timing[0].timestamp)
+        assert(not message2.timing[0].elapsed)
+
+
 def main():
     # server-game
     test_team()
@@ -365,9 +409,13 @@ def main():
     test_server_robot_state_2()
     test_register(use_optional=True)
     test_register(use_optional=False)
+    test_pong(use_optional=True)
+    test_pong(use_optional=False)
     # controller
     test_hello()
     test_input()
+    test_ping(use_optional=True)
+    test_ping(use_optional=False)
     print "OK"
 
 if ('__main__' == __name__):

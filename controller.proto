@@ -1,5 +1,6 @@
 option optimize_for = LITE_RUNTIME;
 
+import "common.proto";
 package orwell.messages;
 
 // Tell a player wants to join
@@ -21,3 +22,7 @@ message Input {
 	}
 }
 
+// Ask for a pong message to mesure timings
+message Ping {
+	repeated Timing timing = 1;
+}
