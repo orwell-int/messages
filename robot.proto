@@ -41,3 +41,7 @@ message Register {
 	required string image = 3;
 }
 
+// Reply to a ping message to mesure timings
+message Pong {
+	repeated Timing timing = 1;
+}

@@ -15,3 +15,11 @@ message Battery {
 	required int32 voltage_millivolt = 2;
 	optional float current_amp = 3;
 }
+
+// Timing that is part of Pong or Ping
+message Timing {
+	required string logger = 1;
+	optional int64 timestamp = 2;
+	optional int64 elapsed = 3;
+}
+
