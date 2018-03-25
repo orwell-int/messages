@@ -5,21 +5,21 @@ package orwell.messages;
 
 // Robot is updating its Ultrasound sensor value
 message Ultrasound {
-	required int64 timestamp = 1;
-	required int32 distance = 2;
+	required uint64 timestamp = 1;
+	required uint32 distance = 2;
 }
 
 // Robot is updating its Battery level value
 message Battery {
-	required int64 timestamp = 1;
-	required int32 voltage_millivolt = 2;
+	required uint64 timestamp = 1;
+	required uint32 voltage_millivolt = 2;
 	optional float current_amp = 3;
 }
 
 // Timing that is part of Pong or Ping
 message Timing {
 	required string logger = 1;
-	optional int64 timestamp = 2;
-	optional int64 elapsed = 3;
+	optional uint64 timestamp = 2;
+	optional uint64 elapsed = 3;
 }
 
