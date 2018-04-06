@@ -48,7 +48,7 @@ def test_game_state():
     assert(message2 == message)
 
 
-def test_welcome(use_optional):
+def _test_welcome(use_optional):
     message = pb_server_game.Welcome()
     robot = "TANK_1"
     team = "team_blue"
@@ -106,6 +106,11 @@ def test_welcome(use_optional):
         assert(len(message.video_address) == 0)
         assert(message.video_port == 0)
     assert(message2.id == robot_id)
+
+
+def test_welcome():
+    _test_welcome(False)
+    _test_welcome(True)
 
 
 def test_access():
@@ -297,7 +302,7 @@ def assertAlmostEqual(float1, float2):
     return abs(float1 - float2) < 1E-6
 
 
-def test_register(use_optional):
+def _test_register(use_optional):
     message = pb_robot.Register()
     temporary_robot_id = '192'
     video_url = "https://1.2.3.4:80/video"
@@ -317,7 +322,12 @@ def test_register(use_optional):
         assert(not message2.video_url)
 
 
-def test_pong(use_optional):
+def test_register():
+    _test_register(False)
+    _test_register(True)
+
+
+def _test_pong(use_optional):
     logger = "logger"
     timestamp = 1234
     elapsed = 36
@@ -337,6 +347,11 @@ def test_pong(use_optional):
     else:
         assert(not message2.timing[0].timestamp)
         assert(not message2.timing[0].elapsed)
+
+
+def test_pong():
+    _test_pong(False)
+    _test_pong(True)
 
 
 # controller
@@ -368,7 +383,7 @@ def test_input():
     assert(message2.fire.weapon2)
 
 
-def test_ping(use_optional):
+def _test_ping(use_optional):
     logger = "logger"
     timestamp = 1234
     elapsed = 36
@@ -390,12 +405,16 @@ def test_ping(use_optional):
         assert(not message2.timing[0].elapsed)
 
 
+def test_ping():
+    _test_ping(False)
+    _test_ping(True)
+
+
 def main():
     # server-game
     test_team()
     test_game_state()
-    test_welcome(use_optional=True)
-    test_welcome(use_optional=False)
+    test_welcome()
     test_access()
     test_start()
     test_stop()
@@ -407,15 +426,12 @@ def main():
     # robot
     test_server_robot_state()
     test_server_robot_state_2()
-    test_register(use_optional=True)
-    test_register(use_optional=False)
-    test_pong(use_optional=True)
-    test_pong(use_optional=False)
+    test_register()
+    test_pong()
     # controller
     test_hello()
     test_input()
-    test_ping(use_optional=True)
-    test_ping(use_optional=False)
+    test_ping()
     print "OK"
 
 if ('__main__' == __name__):
