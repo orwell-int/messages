@@ -10,16 +10,20 @@ message Hello {
 	optional bool ready = 2 [default = true];
 }
 
+message Move {
+	optional double left = 1;
+	optional double right = 2;
+}
+
+message Fire {
+	optional bool weapon1 = 1;
+	optional bool weapon2 = 2;
+}
+
 // Notify the state of the inputs to control the robot
 message Input {
-	optional group Move = 1 {
-		optional double left = 1;
-		optional double right = 2;
-	}
-	optional group Fire = 2 {
-		optional bool weapon1 = 1;
-		optional bool weapon2 = 2;
-	}
+	optional Move move = 1;
+	optional Fire fire = 2;
 }
 
 // Ask for a pong message to mesure timings
