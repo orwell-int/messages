@@ -432,7 +432,7 @@ def main():
     test_hello()
     test_input()
     test_ping()
-    print "OK"
+    print("OK")
 
 if ('__main__' == __name__):
     main()
