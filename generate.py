@@ -1,4 +1,5 @@
 import os
+import sys
 import subprocess
 import glob
 
@@ -22,12 +23,14 @@ def replace(file_path, replacements):
     shutil.move(abs_path, file_path)
 
 
-def main(destination=None):
+def main():
     filename = getframeinfo(currentframe()).filename
     parent = Path(filename).resolve().parent
 
     os.chdir(parent)
-    if not destination:
+    if len(sys.argv) > 1:
+        destination = sys.argv[1]
+    else:
         destination = "."
     destination = Path(destination).resolve()
     target = os.path.join(destination, "orwell", "messages")
@@ -48,7 +51,7 @@ def main(destination=None):
     # need to patch generated files as they can not be imported
     os.chdir(target)
     generated_files = glob.glob("*_pb2.py")
-    print("generated files: %s", generated_files)
+    print("generated files:", generated_files)
     for file in generated_files:
         replace(
             file,
