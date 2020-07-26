@@ -9,6 +9,9 @@ package orwell.messages;
 message Hello {
 	required string name = 1;
 	optional bool ready = 2 [default = true];
+	// zmq does not allow to retrieve the address, so we are going to trust
+	// the clients to provide it (it is only for debugging purpose)
+	optional string address = 3;
 }
 
 message Move {

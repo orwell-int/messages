@@ -366,6 +366,15 @@ def test_hello():
     message2.ParseFromString(payload)
     assert(message2.name == name)
     assert(message2.ready)
+    assert(len(message2.address) == 0)
+    address = "192.168.1.2"
+    message.address = address
+    payload = message.SerializeToString()
+    message2 = pb_controller.Hello()
+    message2.ParseFromString(payload)
+    assert(message2.name == name)
+    assert(message2.ready)
+    assert(message2.address == address)
 
 
 def test_input():
