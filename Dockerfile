@@ -4,8 +4,6 @@ FROM ubuntu:19.10
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
 
-ENV ORWELL_DISABLE_TEST_BROADCAST 1
-
 RUN mkdir -p /workdir
 WORKDIR /workdir
 COPY . /workdir
@@ -26,4 +24,5 @@ RUN echo "tzdata tzdata/Areas select Europe" > /tmp/preseed.txt; \
 
 RUN apt-get install -y -qq libprotobuf-dev protobuf-compiler
 RUN apt-get install -y -qq libzmq3-dev
+RUN apt-get install -y -qq make python3 python3-venv
 RUN make test
