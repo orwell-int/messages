@@ -1,3 +1,4 @@
+from __future__ import print_function
 import orwell.messages.controller_pb2 as pb_controller
 import orwell.messages.robot_pb2 as pb_robot
 import orwell.messages.server_game_pb2 as pb_server_game
