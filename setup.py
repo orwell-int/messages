@@ -9,7 +9,8 @@ setuptools.setup(name='orwell::messages',
       url='https://github.com/orwell-int/messages',
       packages=['orwell', 'orwell.messages'],
       install_requires=[
-            "protobuf==3.8.0",
-            "six==1.12.0",
+            "protobuf>=3.12.2",
+            "six>=1.15.0",
       ],
+      python_requires='>=3.6.0',
      )
