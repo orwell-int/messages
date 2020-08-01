@@ -1,3 +1,4 @@
+from __future__ import print_function
 import orwell.messages.controller_pb2 as pb_controller
 import orwell.messages.robot_pb2 as pb_robot
 import orwell.messages.server_game_pb2 as pb_server_game
@@ -366,6 +367,15 @@ def test_hello():
     message2.ParseFromString(payload)
     assert(message2.name == name)
     assert(message2.ready)
+    assert(len(message2.address) == 0)
+    address = "192.168.1.2"
+    message.address = address
+    payload = message.SerializeToString()
+    message2 = pb_controller.Hello()
+    message2.ParseFromString(payload)
+    assert(message2.name == name)
+    assert(message2.ready)
+    assert(message2.address == address)
 
 
 def test_input():
@@ -432,7 +442,7 @@ def main():
     test_hello()
     test_input()
     test_ping()
-    print "OK"
+    print("OK")
 
 if ('__main__' == __name__):
     main()
