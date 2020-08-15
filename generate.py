@@ -23,17 +23,13 @@ def replace(file_path, replacements):
     shutil.move(abs_path, file_path)
 
 
-def main():
+def main(destination="."):
     filename = getframeinfo(currentframe()).filename
     parent = Path(filename).resolve().parent
+    generation_root = Path(destination).resolve()
 
     os.chdir(parent)
-    if len(sys.argv) > 1:
-        destination = sys.argv[1]
-    else:
-        destination = "."
-    destination = Path(destination).resolve()
-    target = os.path.join(destination, "orwell", "messages")
+    target = os.path.join(generation_root, "orwell", "messages")
     if not os.path.exists(target):
         os.makedirs(target)
     init = os.path.join(target, "__init__.py")
@@ -62,4 +58,7 @@ def main():
 
 
 if "__main__" == __name__:
-    main()
+    if len(sys.argv) > 1:
+        main(sys.argv[1])
+    else:
+        main()
